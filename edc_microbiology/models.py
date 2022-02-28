@@ -7,19 +7,23 @@ from edc_utils import get_utcnow
 
 from .model_mixins import (
     BloodCultureModelMixin,
-    CsfModelMixin,
     HistopathologyModelMixin,
-    SputumModelMixin,
+    SputumAfbModelMixin,
+    SputumCultureModelMixin,
+    SputumGenexpertModelMixin,
+    UrinaryLamModelMixin,
     UrineCultureModelMixin,
 )
 
 
 class Microbiology(
     UniqueSubjectIdentifierFieldMixin,
+    UrinaryLamModelMixin,
+    SputumGenexpertModelMixin,
+    SputumCultureModelMixin,
+    SputumAfbModelMixin,
     UrineCultureModelMixin,
     BloodCultureModelMixin,
-    SputumModelMixin,
-    CsfModelMixin,
     HistopathologyModelMixin,
     SiteModelMixin,
     edc_models.BaseUuidModel,

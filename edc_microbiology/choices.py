@@ -1,10 +1,16 @@
-from edc_constants.constants import NOT_APPLICABLE, OTHER, POS
+from edc_constants.constants import IND, NEG, NOT_APPLICABLE, OTHER, POS, UNKNOWN
 
 from .constants import (
     BACTERIA,
     CRYPTOCOCCUS_NEOFORMANS,
     ECOLI,
     KLEBSIELLA_SPP,
+    LAM_NEG0,
+    LAM_POS1,
+    LAM_POS2,
+    LAM_POS3,
+    LAM_POS4,
+    LAM_POS5,
     NO_GROWTH,
 )
 
@@ -27,16 +33,26 @@ BLOOD_CULTURE_RESULTS_ORGANISM = (
 )
 
 BIOPSY_RESULTS_ORGANISM = (
-    (NOT_APPLICABLE, "Not applicable"),
     (CRYPTOCOCCUS_NEOFORMANS, "Cryptococcus neoformans"),
     ("mycobacterium_tuberculosis", "Mycobacterium Tuberculosis"),
     (OTHER, "Other"),
+    (NOT_APPLICABLE, "Not applicable"),
 )
 
 CULTURE_RESULTS = (
-    (NOT_APPLICABLE, "Not applicable"),
-    (NO_GROWTH, "No growth"),
     (POS, "Positive"),
+    (NO_GROWTH, "No growth"),
+    (NOT_APPLICABLE, "Not applicable"),
+)
+
+LAM_POS_RESULT = (
+    (LAM_POS1, "1+ (low)"),
+    (LAM_POS2, "2+"),
+    (LAM_POS3, "3+"),
+    (LAM_POS4, "4+"),
+    (LAM_POS5, "5+ (high)"),
+    (UNKNOWN, "Unknown / Grade not reported"),
+    (NOT_APPLICABLE, "Not applicable"),
 )
 
 URINE_CULTURE_RESULTS_ORGANISM = (
@@ -47,15 +63,16 @@ URINE_CULTURE_RESULTS_ORGANISM = (
 )
 
 SPUTUM_GENEXPERT = (
-    ("mtb_detected_rif_resistance_detected", "MTB DETECTED & Rif Resistance DETECTED"),
-    (
-        "mtb_detected_rif_resistance_not_detected",
-        "MTB DETECTED & Rif Resistance NOT detected",
-    ),
-    (
-        "mtb_detected_rif_resistance_indeterminate",
-        "MTB DETECTED & Rif Resistance INDETERMINATE",
-    ),
-    ("mtb_not_detected", "MTB NOT detected"),
+    (POS, "MTB Positive"),
+    (NEG, "MTB Negative"),
+    (IND, "Indeterminate"),
+    (NOT_APPLICABLE, "Not applicable"),
+)
+
+
+SPUTUM_CULTURE = (
+    (POS, "MTB Positive"),
+    (NEG, "MTB Negative"),
+    (IND, "Indeterminate / contaminated"),
     (NOT_APPLICABLE, "Not applicable"),
 )

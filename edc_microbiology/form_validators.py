@@ -5,9 +5,201 @@ from edc_form_validators.extra_mixins import StudyDayFormValidatorMixin
 from .constants import BACTERIA
 
 
-class MicrobiologyFormValidator(StudyDayFormValidatorMixin, FormValidator):
-    def clean(self):
+class BloodCultureFormValidatorMixin:
+    def validate_blood_culture(self: FormValidator):
+        self.required_if(
+            YES, field="blood_culture_performed", field_required="blood_culture_date"
+        )
 
+        self.applicable_if(
+            YES,
+            field="blood_culture_performed",
+            field_applicable="blood_culture_result",
+        )
+
+        self.required_if(POS, field="blood_culture_result", field_required="blood_culture_day")
+
+        self.applicable_if(
+            POS,
+            field="blood_culture_result",
+            field_applicable="blood_culture_organism",
+        )
+
+        self.validate_other_specify(
+            field="blood_culture_organism",
+            other_specify_field="blood_culture_organism_other",
+            other_stored_value=OTHER,
+        )
+
+        condition = (
+            self.cleaned_data.get("blood_culture_organism") == BACTERIA
+            or self.cleaned_data.get("blood_culture_organism") == "bacteria_and_cryptococcus"
+        )
+        self.applicable_if_true(condition=condition, field_applicable="blood_culture_bacteria")
+
+        self.validate_other_specify(
+            field="blood_culture_bacteria",
+            other_specify_field="blood_culture_bacteria_other",
+            other_stored_value=OTHER,
+        )
+
+
+class BloodCultureSimpleFormValidatorMixin:
+    def validate_blood_culture(self: FormValidator):
+
+        self.required_if(
+            YES, field="blood_culture_performed", field_required="blood_culture_date"
+        )
+
+        self.applicable_if(
+            YES,
+            field="blood_culture_performed",
+            field_applicable="blood_culture_result",
+        )
+
+        self.required_if(
+            POS,
+            field="blood_culture_result",
+            field_required="blood_culture_organism_text",
+        )
+
+
+class CsfGenexpertFormValidator:
+    def validate_csf_genexpert(self: FormValidator):
+        self.required_if(
+            YES,
+            field="csf_genexpert_performed",
+            field_required="csf_genexpert_date",
+        )
+
+        self.applicable_if(
+            YES,
+            field="csf_genexpert_performed",
+            field_applicable="csf_result_genexpert",
+        )
+
+
+class HistopathologyFormValidatorMixin:
+    def validate_histopathology(self: FormValidator, exclude_fields=None):
+        exclude_fields = exclude_fields or []
+
+        self.required_if(
+            YES, field="tissue_biopsy_performed", field_required="tissue_biopsy_date"
+        )
+
+        if "tissue_biopsy_day" not in exclude_fields:
+            self.required_if(
+                POS, field="tissue_biopsy_result", field_required="tissue_biopsy_day"
+            )
+
+        self.applicable_if(
+            YES,
+            field="tissue_biopsy_performed",
+            field_applicable="tissue_biopsy_result",
+        )
+
+        self.applicable_if(
+            POS,
+            field="tissue_biopsy_result",
+            field_applicable="tissue_biopsy_organism",
+        )
+
+        self.validate_other_specify(
+            field="tissue_biopsy_organism",
+            other_specify_field="tissue_biopsy_organism_other",
+            other_stored_value=OTHER,
+        )
+
+
+class UrineCultureFormValidatorMixin:
+    def validate_urine_culture(self: FormValidator):
+        self.required_if(
+            YES, field="urine_culture_performed", field_required="urine_culture_date"
+        )
+
+        self.applicable_if(
+            YES,
+            field="urine_culture_performed",
+            field_applicable="urine_culture_result",
+        )
+
+        self.applicable_if(
+            POS,
+            field="urine_culture_result",
+            field_applicable="urine_culture_organism",
+        )
+
+        self.validate_other_specify(
+            field="urine_culture_organism",
+            other_specify_field="urine_culture_organism_other",
+            other_stored_value=OTHER,
+        )
+
+
+class SputumCultureFormValidatorMixin:
+    def validate_sputum_culture(self: FormValidator):
+        self.required_if(
+            YES, field="sputum_culture_performed", field_required="sputum_culture_date"
+        )
+        self.applicable_if(
+            YES, field="sputum_culture_performed", field_applicable="sputum_culture_result"
+        )
+
+
+class SputumAfbFormValidatorMixin:
+    def validate_sputum_afb(self: FormValidator):
+        self.required_if(YES, field="sputum_afb_performed", field_required="sputum_afb_date")
+        self.applicable_if(
+            YES, field="sputum_afb_performed", field_applicable="sputum_afb_result"
+        )
+
+
+class SputumGenexpertFormValidatorMixin:
+    def validate_sputum_genexpert(self: FormValidator):
+        self.required_if(
+            YES,
+            field="sputum_genexpert_performed",
+            field_required="sputum_genexpert_date",
+        )
+        self.applicable_if(
+            YES,
+            field="sputum_genexpert_performed",
+            field_applicable="sputum_genexpert_result",
+        )
+
+
+class UrinaryLamFormValidatorMixin:
+    def validate_urinary_lam(self: FormValidator):
+        self.required_if(
+            YES,
+            field="urinary_lam_performed",
+            field_required="urinary_lam_date",
+        )
+
+        self.applicable_if(
+            YES,
+            field="urinary_lam_performed",
+            field_applicable="urinary_lam_result",
+        )
+
+        self.applicable_if(
+            POS,
+            field="urinary_lam_result",
+            field_applicable="urinary_lam_result_grade",
+        )
+
+
+class MicrobiologyFormValidator(
+    StudyDayFormValidatorMixin,
+    UrinaryLamFormValidatorMixin,
+    SputumGenexpertFormValidatorMixin,
+    SputumCultureFormValidatorMixin,
+    SputumAfbFormValidatorMixin,
+    BloodCultureFormValidatorMixin,
+    HistopathologyFormValidatorMixin,
+    FormValidator,
+):
+    def clean(self):
         self.validate_study_day_with_datetime(
             subject_identifier=self.cleaned_data.get("subject_visit").subject_identifier,
             study_day=self.cleaned_data.get("day_blood_taken"),
@@ -22,124 +214,14 @@ class MicrobiologyFormValidator(StudyDayFormValidatorMixin, FormValidator):
             study_day_field="day_biopsy_taken",
         )
 
-        self.required_if(
-            YES, field="urine_culture_performed", field_required="urine_taken_date"
-        )
+        self.validate_urinary_lam()
 
-        self.applicable_if(
-            YES,
-            field="urine_culture_performed",
-            field_applicable="urine_culture_results",
-        )
+        self.validate_sputum_afb()
 
-        self.applicable_if(
-            POS,
-            field="urine_culture_results",
-            field_applicable="urine_culture_organism",
-        )
+        self.validate_sputum_culture()
 
-        self.validate_other_specify(
-            field="urine_culture_organism",
-            other_specify_field="urine_culture_organism_other",
-            other_stored_value=OTHER,
-        )
+        self.validate_sputum_genexpert()
 
-        self.applicable_if(
-            YES,
-            field="blood_culture_performed",
-            field_applicable="blood_culture_results",
-        )
+        self.validate_blood_culture()
 
-        self.required_if(
-            YES, field="blood_culture_performed", field_required="blood_taken_date"
-        )
-
-        self.required_if(POS, field="blood_culture_results", field_required="day_blood_taken")
-
-        self.applicable_if(
-            POS,
-            field="blood_culture_results",
-            field_applicable="blood_culture_organism",
-        )
-
-        self.validate_other_specify(
-            field="blood_culture_organism",
-            other_specify_field="blood_culture_organism_other",
-            other_stored_value=OTHER,
-        )
-
-        condition = (
-            self.cleaned_data.get("blood_culture_organism") == BACTERIA
-            or self.cleaned_data.get("blood_culture_organism") == "bacteria_and_cryptococcus"
-        )
-        self.applicable_if_true(condition=condition, field_applicable="bacteria_identified")
-
-        self.validate_other_specify(
-            field="bacteria_identified",
-            other_specify_field="bacteria_identified_other",
-            other_stored_value=OTHER,
-        )
-
-        self.required_if(YES, field="sputum_afb_performed", field_required="sputum_afb_date")
-
-        self.applicable_if(
-            YES, field="sputum_afb_performed", field_applicable="sputum_results_afb"
-        )
-
-        self.required_if(YES, field="sputum_performed", field_required="sputum_taken_date")
-
-        self.applicable_if(
-            YES, field="sputum_performed", field_applicable="sputum_results_culture"
-        )
-
-        self.required_if(
-            POS,
-            field="sputum_results_culture",
-            field_required="sputum_results_positive",
-        )
-
-        self.required_if(
-            YES,
-            field="sputum_genexpert_performed",
-            field_required="sputum_genexpert_date",
-        )
-
-        self.applicable_if(
-            YES,
-            field="sputum_genexpert_performed",
-            field_applicable="sputum_result_genexpert",
-        )
-
-        self.required_if(
-            YES,
-            field="csf_genexpert_performed",
-            field_required="csf_genexpert_date",
-        )
-
-        self.applicable_if(
-            YES,
-            field="csf_genexpert_performed",
-            field_applicable="csf_result_genexpert",
-        )
-
-        self.applicable_if(
-            YES,
-            field="tissue_biopsy_taken",
-            field_applicable="tissue_biopsy_results",
-        )
-
-        self.required_if(YES, field="tissue_biopsy_taken", field_required="biopsy_date")
-
-        self.required_if(POS, field="tissue_biopsy_results", field_required="day_biopsy_taken")
-
-        self.applicable_if(
-            POS,
-            field="tissue_biopsy_results",
-            field_applicable="tissue_biopsy_organism",
-        )
-
-        self.validate_other_specify(
-            field="tissue_biopsy_organism",
-            other_specify_field="tissue_biopsy_organism_other",
-            other_stored_value=OTHER,
-        )
+        self.validate_histopathology()
