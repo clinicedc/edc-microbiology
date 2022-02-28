@@ -15,11 +15,11 @@ class UrineCultureModelMixin(models.Model):
         help_text="only for patients with >50 white cells in urine",
     )
 
-    urine_taken_date = models.DateField(
+    urine_culture_date = models.DateField(
         validators=[date_not_before_study_start, date_not_future], null=True, blank=True
     )
 
-    urine_culture_results = models.CharField(
+    urine_culture_result = models.CharField(
         verbose_name="Urine culture results, if completed",
         max_length=10,
         choices=CULTURE_RESULTS,

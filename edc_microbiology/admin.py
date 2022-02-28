@@ -4,7 +4,7 @@ from edc_model_admin.dashboard import ModelAdminSubjectDashboardMixin
 
 from .admin_site import edc_microbiology_admin
 from .forms import MicrobiologyForm
-from .modeladmin_mixin import MicrobiologyModelAdminMixin
+from .modeladmin_mixins import MicrobiologyModelAdminMixin
 from .models import Microbiology
 
 
