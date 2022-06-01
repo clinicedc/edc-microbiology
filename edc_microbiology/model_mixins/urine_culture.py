@@ -1,7 +1,8 @@
 from django.db import models
 from edc_constants.choices import YES_NO
 from edc_constants.constants import NOT_APPLICABLE
-from edc_model.models import OtherCharField, date_not_future
+from edc_model.models import OtherCharField
+from edc_model.validators import date_not_future
 from edc_protocol.validators import date_not_before_study_start
 
 from ..choices import CULTURE_RESULTS, URINE_CULTURE_RESULTS_ORGANISM

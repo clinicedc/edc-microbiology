@@ -5,7 +5,6 @@ from .constants import (
     CRYPTOCOCCUS_NEOFORMANS,
     ECOLI,
     KLEBSIELLA_SPP,
-    LAM_NEG0,
     LAM_POS1,
     LAM_POS2,
     LAM_POS3,

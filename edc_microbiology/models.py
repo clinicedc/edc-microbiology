@@ -1,7 +1,6 @@
 from django.db import models
 from edc_identifier.model_mixins import UniqueSubjectIdentifierFieldMixin
-from edc_model import models as edc_models
-from edc_model.models import HistoricalRecords
+from edc_model.models import BaseUuidModel, HistoricalRecords
 from edc_sites.models import CurrentSiteManager, SiteModelMixin
 from edc_utils import get_utcnow
 
@@ -26,7 +25,7 @@ class Microbiology(
     BloodCultureModelMixin,
     HistopathologyModelMixin,
     SiteModelMixin,
-    edc_models.BaseUuidModel,
+    BaseUuidModel,
 ):
 
     report_datetime = models.DateTimeField(default=get_utcnow)
@@ -35,6 +34,6 @@ class Microbiology(
     objects = models.Manager()
     history = HistoricalRecords()
 
-    class Meta(edc_models.BaseUuidModel.Meta):
+    class Meta(BaseUuidModel.Meta):
         verbose_name = "Microbiology"
         verbose_name_plural = "Microbiology"
