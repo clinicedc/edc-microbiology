@@ -87,16 +87,16 @@ class HistopathologyFormValidatorMixin:
             YES, field="tissue_biopsy_performed", field_required="tissue_biopsy_date"
         )
 
-        if "tissue_biopsy_day" not in exclude_fields:
-            self.required_if(
-                POS, field="tissue_biopsy_result", field_required="tissue_biopsy_day"
-            )
-
         self.applicable_if(
             YES,
             field="tissue_biopsy_performed",
             field_applicable="tissue_biopsy_result",
         )
+
+        if "tissue_biopsy_day" not in exclude_fields:
+            self.required_if(
+                POS, field="tissue_biopsy_result", field_required="tissue_biopsy_day"
+            )
 
         self.applicable_if(
             POS,
@@ -197,6 +197,7 @@ class MicrobiologyFormValidator(
     SputumAfbFormValidatorMixin,
     BloodCultureFormValidatorMixin,
     HistopathologyFormValidatorMixin,
+    UrineCultureFormValidatorMixin,
     FormValidator,
 ):
     def clean(self):
@@ -225,3 +226,5 @@ class MicrobiologyFormValidator(
         self.validate_blood_culture()
 
         self.validate_histopathology()
+
+        self.validate_urine_culture()
