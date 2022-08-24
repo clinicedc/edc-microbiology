@@ -6,28 +6,52 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('edc_microbiology', '0004_auto_20220223_2258'),
+        ("edc_microbiology", "0004_auto_20220223_2258"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='historicalmicrobiology',
-            name='tissue_biopsy_organism_text',
-            field=models.TextField(blank=True, null=True, verbose_name='If growth positive, organism'),
+            model_name="historicalmicrobiology",
+            name="tissue_biopsy_organism_text",
+            field=models.TextField(
+                blank=True, null=True, verbose_name="If growth positive, organism"
+            ),
         ),
         migrations.AddField(
-            model_name='microbiology',
-            name='tissue_biopsy_organism_text',
-            field=models.TextField(blank=True, null=True, verbose_name='If growth positive, organism'),
+            model_name="microbiology",
+            name="tissue_biopsy_organism_text",
+            field=models.TextField(
+                blank=True, null=True, verbose_name="If growth positive, organism"
+            ),
         ),
         migrations.AlterField(
-            model_name='historicalmicrobiology',
-            name='tissue_biopsy_organism',
-            field=models.CharField(choices=[('cryptococcus_neoformans', 'Cryptococcus neoformans'), ('mycobacterium_tuberculosis', 'Mycobacterium Tuberculosis'), ('OTHER', 'Other'), ('N/A', 'Not applicable')], default='N/A', max_length=50, verbose_name='If growth POSITIVE, organism'),
+            model_name="historicalmicrobiology",
+            name="tissue_biopsy_organism",
+            field=models.CharField(
+                choices=[
+                    ("cryptococcus_neoformans", "Cryptococcus neoformans"),
+                    ("mycobacterium_tuberculosis", "Mycobacterium Tuberculosis"),
+                    ("OTHER", "Other"),
+                    ("N/A", "Not applicable"),
+                ],
+                default="N/A",
+                max_length=50,
+                verbose_name="If growth POSITIVE, organism",
+            ),
         ),
         migrations.AlterField(
-            model_name='microbiology',
-            name='tissue_biopsy_organism',
-            field=models.CharField(choices=[('cryptococcus_neoformans', 'Cryptococcus neoformans'), ('mycobacterium_tuberculosis', 'Mycobacterium Tuberculosis'), ('OTHER', 'Other'), ('N/A', 'Not applicable')], default='N/A', max_length=50, verbose_name='If growth POSITIVE, organism'),
+            model_name="microbiology",
+            name="tissue_biopsy_organism",
+            field=models.CharField(
+                choices=[
+                    ("cryptococcus_neoformans", "Cryptococcus neoformans"),
+                    ("mycobacterium_tuberculosis", "Mycobacterium Tuberculosis"),
+                    ("OTHER", "Other"),
+                    ("N/A", "Not applicable"),
+                ],
+                default="N/A",
+                max_length=50,
+                verbose_name="If growth POSITIVE, organism",
+            ),
         ),
     ]

@@ -6,17 +6,22 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('edc_microbiology', '0008_auto_20220224_1926'),
+        ("edc_microbiology", "0008_auto_20220224_1926"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='historicalmicrobiology',
-            options={'get_latest_by': ('history_date', 'history_id'), 'ordering': ('-history_date', '-history_id'), 'verbose_name': 'historical Microbiology', 'verbose_name_plural': 'historical Microbiology'},
+            name="historicalmicrobiology",
+            options={
+                "get_latest_by": ("history_date", "history_id"),
+                "ordering": ("-history_date", "-history_id"),
+                "verbose_name": "historical Microbiology",
+                "verbose_name_plural": "historical Microbiology",
+            },
         ),
         migrations.AlterField(
-            model_name='historicalmicrobiology',
-            name='history_date',
+            model_name="historicalmicrobiology",
+            name="history_date",
             field=models.DateTimeField(db_index=True),
         ),
     ]
