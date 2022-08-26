@@ -6,48 +6,102 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('edc_microbiology', '0002_auto_20220223_2236'),
+        ("edc_microbiology", "0002_auto_20220223_2236"),
     ]
 
     operations = [
         migrations.RenameField(
-            model_name='historicalmicrobiology',
-            old_name='tissue_biopsy_taken',
-            new_name='tissue_biopsy_performed',
+            model_name="historicalmicrobiology",
+            old_name="tissue_biopsy_taken",
+            new_name="tissue_biopsy_performed",
         ),
         migrations.RenameField(
-            model_name='microbiology',
-            old_name='tissue_biopsy_taken',
-            new_name='tissue_biopsy_performed',
+            model_name="microbiology",
+            old_name="tissue_biopsy_taken",
+            new_name="tissue_biopsy_performed",
         ),
         migrations.AlterField(
-            model_name='historicalmicrobiology',
-            name='blood_culture_result',
-            field=models.CharField(choices=[('POS', 'Positive'), ('no_growth', 'No growth'), ('N/A', 'Not applicable')], default='N/A', max_length=10, verbose_name='Blood culture result'),
+            model_name="historicalmicrobiology",
+            name="blood_culture_result",
+            field=models.CharField(
+                choices=[
+                    ("POS", "Positive"),
+                    ("no_growth", "No growth"),
+                    ("N/A", "Not applicable"),
+                ],
+                default="N/A",
+                max_length=10,
+                verbose_name="Blood culture result",
+            ),
         ),
         migrations.AlterField(
-            model_name='historicalmicrobiology',
-            name='tissue_biopsy_result',
-            field=models.CharField(choices=[('POS', 'Positive'), ('no_growth', 'No growth'), ('N/A', 'Not applicable')], default='N/A', max_length=10, verbose_name='Tissue biopsy results'),
+            model_name="historicalmicrobiology",
+            name="tissue_biopsy_result",
+            field=models.CharField(
+                choices=[
+                    ("POS", "Positive"),
+                    ("no_growth", "No growth"),
+                    ("N/A", "Not applicable"),
+                ],
+                default="N/A",
+                max_length=10,
+                verbose_name="Tissue biopsy results",
+            ),
         ),
         migrations.AlterField(
-            model_name='historicalmicrobiology',
-            name='urine_culture_result',
-            field=models.CharField(choices=[('POS', 'Positive'), ('no_growth', 'No growth'), ('N/A', 'Not applicable')], default='N/A', max_length=10, verbose_name='Urine culture results, if completed'),
+            model_name="historicalmicrobiology",
+            name="urine_culture_result",
+            field=models.CharField(
+                choices=[
+                    ("POS", "Positive"),
+                    ("no_growth", "No growth"),
+                    ("N/A", "Not applicable"),
+                ],
+                default="N/A",
+                max_length=10,
+                verbose_name="Urine culture results, if completed",
+            ),
         ),
         migrations.AlterField(
-            model_name='microbiology',
-            name='blood_culture_result',
-            field=models.CharField(choices=[('POS', 'Positive'), ('no_growth', 'No growth'), ('N/A', 'Not applicable')], default='N/A', max_length=10, verbose_name='Blood culture result'),
+            model_name="microbiology",
+            name="blood_culture_result",
+            field=models.CharField(
+                choices=[
+                    ("POS", "Positive"),
+                    ("no_growth", "No growth"),
+                    ("N/A", "Not applicable"),
+                ],
+                default="N/A",
+                max_length=10,
+                verbose_name="Blood culture result",
+            ),
         ),
         migrations.AlterField(
-            model_name='microbiology',
-            name='tissue_biopsy_result',
-            field=models.CharField(choices=[('POS', 'Positive'), ('no_growth', 'No growth'), ('N/A', 'Not applicable')], default='N/A', max_length=10, verbose_name='Tissue biopsy results'),
+            model_name="microbiology",
+            name="tissue_biopsy_result",
+            field=models.CharField(
+                choices=[
+                    ("POS", "Positive"),
+                    ("no_growth", "No growth"),
+                    ("N/A", "Not applicable"),
+                ],
+                default="N/A",
+                max_length=10,
+                verbose_name="Tissue biopsy results",
+            ),
         ),
         migrations.AlterField(
-            model_name='microbiology',
-            name='urine_culture_result',
-            field=models.CharField(choices=[('POS', 'Positive'), ('no_growth', 'No growth'), ('N/A', 'Not applicable')], default='N/A', max_length=10, verbose_name='Urine culture results, if completed'),
+            model_name="microbiology",
+            name="urine_culture_result",
+            field=models.CharField(
+                choices=[
+                    ("POS", "Positive"),
+                    ("no_growth", "No growth"),
+                    ("N/A", "Not applicable"),
+                ],
+                default="N/A",
+                max_length=10,
+                verbose_name="Urine culture results, if completed",
+            ),
         ),
     ]
