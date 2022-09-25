@@ -1,12 +1,12 @@
 from edc_constants.constants import OTHER, POS, YES
-from edc_form_validators import FormValidator
+from edc_crf.crf_form_validator import CrfFormValidator
 from edc_form_validators.extra_mixins import StudyDayFormValidatorMixin
 
 from .constants import BACTERIA
 
 
 class BloodCultureFormValidatorMixin:
-    def validate_blood_culture(self: FormValidator):
+    def validate_blood_culture(self: CrfFormValidator):
         self.required_if(
             YES, field="blood_culture_performed", field_required="blood_culture_date"
         )
@@ -45,7 +45,7 @@ class BloodCultureFormValidatorMixin:
 
 
 class BloodCultureSimpleFormValidatorMixin:
-    def validate_blood_culture(self: FormValidator):
+    def validate_blood_culture(self: CrfFormValidator):
 
         self.required_if(
             YES, field="blood_culture_performed", field_required="blood_culture_date"
@@ -65,7 +65,7 @@ class BloodCultureSimpleFormValidatorMixin:
 
 
 class CsfGenexpertFormValidator:
-    def validate_csf_genexpert(self: FormValidator):
+    def validate_csf_genexpert(self: CrfFormValidator):
         self.required_if(
             YES,
             field="csf_genexpert_performed",
@@ -80,7 +80,7 @@ class CsfGenexpertFormValidator:
 
 
 class HistopathologyFormValidatorMixin:
-    def validate_histopathology(self: FormValidator, exclude_fields=None):
+    def validate_histopathology(self: CrfFormValidator, exclude_fields: list[str] = None):
         exclude_fields = exclude_fields or []
 
         self.required_if(
@@ -112,7 +112,7 @@ class HistopathologyFormValidatorMixin:
 
 
 class UrineCultureFormValidatorMixin:
-    def validate_urine_culture(self: FormValidator):
+    def validate_urine_culture(self: CrfFormValidator):
         self.required_if(
             YES, field="urine_culture_performed", field_required="urine_culture_date"
         )
@@ -137,7 +137,7 @@ class UrineCultureFormValidatorMixin:
 
 
 class SputumCultureFormValidatorMixin:
-    def validate_sputum_culture(self: FormValidator):
+    def validate_sputum_culture(self: CrfFormValidator):
         self.required_if(
             YES, field="sputum_culture_performed", field_required="sputum_culture_date"
         )
@@ -147,7 +147,7 @@ class SputumCultureFormValidatorMixin:
 
 
 class SputumAfbFormValidatorMixin:
-    def validate_sputum_afb(self: FormValidator):
+    def validate_sputum_afb(self: CrfFormValidator):
         self.required_if(YES, field="sputum_afb_performed", field_required="sputum_afb_date")
         self.applicable_if(
             YES, field="sputum_afb_performed", field_applicable="sputum_afb_result"
@@ -155,7 +155,7 @@ class SputumAfbFormValidatorMixin:
 
 
 class SputumGenexpertFormValidatorMixin:
-    def validate_sputum_genexpert(self: FormValidator):
+    def validate_sputum_genexpert(self: CrfFormValidator):
         self.required_if(
             YES,
             field="sputum_genexpert_performed",
@@ -169,7 +169,7 @@ class SputumGenexpertFormValidatorMixin:
 
 
 class UrinaryLamFormValidatorMixin:
-    def validate_urinary_lam(self: FormValidator):
+    def validate_urinary_lam(self: CrfFormValidator):
         self.required_if(
             YES,
             field="urinary_lam_performed",
@@ -198,18 +198,18 @@ class MicrobiologyFormValidator(
     BloodCultureFormValidatorMixin,
     HistopathologyFormValidatorMixin,
     UrineCultureFormValidatorMixin,
-    FormValidator,
+    CrfFormValidator,
 ):
     def clean(self):
         self.validate_study_day_with_datetime(
-            subject_identifier=self.cleaned_data.get("subject_visit").subject_identifier,
+            subject_identifier=self.subject_identifier,
             study_day=self.cleaned_data.get("day_blood_taken"),
             compare_date=self.cleaned_data.get("blood_taken_date"),
             study_day_field="day_blood_taken",
         )
 
         self.validate_study_day_with_datetime(
-            subject_identifier=self.cleaned_data.get("subject_visit").subject_identifier,
+            subject_identifier=self.subject_identifier,
             study_day=self.cleaned_data.get("day_biopsy_taken"),
             compare_date=self.cleaned_data.get("biopsy_date"),
             study_day_field="day_biopsy_taken",
