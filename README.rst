@@ -3,6 +3,8 @@
 edc_microbiology
 ----------------
 
+Microbiology model mixins in clinicedc/edc projects
+
 .. |pypi| image:: https://img.shields.io/pypi/v/edc-microbiology.svg
     :target: https://pypi.python.org/pypi/edc-microbiology
 
