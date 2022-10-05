@@ -36,6 +36,7 @@ DEFAULT_SETTINGS = DefaultTestSettings(
         "edc_notification.apps.AppConfig",
         "edc_export.apps.AppConfig",
         "edc_crf.apps.AppConfig",
+        "edc_timepoint.apps.AppConfig",
         "edc_registration.apps.AppConfig",
         "edc_metadata.apps.AppConfig",
         "edc_sites.apps.AppConfig",

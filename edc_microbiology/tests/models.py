@@ -1,25 +1,32 @@
 from django.db import models
-from edc_identifier.model_mixins import NonUniqueSubjectIdentifierFieldMixin
+from edc_appointment.model_mixins import AppointmentModelMixin
 from edc_model.models import BaseUuidModel
-from edc_utils import get_utcnow
-from edc_visit_schedule.model_mixins import VisitCodeFieldsModelMixin
+from edc_sites.models import SiteModelMixin
+from edc_visit_tracking.model_mixins import VisitModelMixin
 
 
-class Appointment(
-    NonUniqueSubjectIdentifierFieldMixin, VisitCodeFieldsModelMixin, BaseUuidModel
-):
+class Appointment(AppointmentModelMixin, SiteModelMixin, BaseUuidModel):
+    def raise_if_offstudy(self, **kwargs):
+        pass
 
-    appt_datetime = models.DateTimeField(default=get_utcnow)
+    def timepoint_open_or_raise(self):
+        pass
+
+    def update_timepoint(self):
+        pass
 
     class Meta(BaseUuidModel.Meta):
         pass
 
 
-class SubjectVisit(
-    NonUniqueSubjectIdentifierFieldMixin, VisitCodeFieldsModelMixin, BaseUuidModel
-):
+class SubjectVisit(VisitModelMixin, BaseUuidModel):
 
-    appointment = models.ForeignKey(Appointment, on_delete=models.PROTECT, related_name="+")
+    appointment = models.OneToOneField(
+        Appointment, on_delete=models.PROTECT, related_name="subjectvisittest"
+    )
 
-    class Meta(BaseUuidModel.Meta):
+    def raise_if_offstudy(self):
+        pass
+
+    class Meta(VisitModelMixin.Meta, BaseUuidModel.Meta):
         pass

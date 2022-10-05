@@ -1,5 +1,8 @@
+from edc_consent.form_validators import ConsentFormValidatorMixin
 from edc_constants.constants import OTHER, POS, YES
 from edc_crf.crf_form_validator import CrfFormValidator
+from edc_crf.crf_form_validator_mixins import BaseFormValidatorMixin
+from edc_form_validators import FormValidator
 from edc_form_validators.extra_mixins import StudyDayFormValidatorMixin
 
 from .constants import BACTERIA
@@ -189,7 +192,7 @@ class UrinaryLamFormValidatorMixin:
         )
 
 
-class MicrobiologyFormValidator(
+class MicrobiologyFormValidatorMixin(
     StudyDayFormValidatorMixin,
     UrinaryLamFormValidatorMixin,
     SputumGenexpertFormValidatorMixin,
@@ -198,7 +201,6 @@ class MicrobiologyFormValidator(
     BloodCultureFormValidatorMixin,
     HistopathologyFormValidatorMixin,
     UrineCultureFormValidatorMixin,
-    CrfFormValidator,
 ):
     def clean(self):
         self.validate_study_day_with_datetime(
@@ -228,3 +230,20 @@ class MicrobiologyFormValidator(
         self.validate_histopathology()
 
         self.validate_urine_culture()
+
+
+class MicrobiologyFormValidator(MicrobiologyFormValidatorMixin, CrfFormValidator):
+    """Assumes this is a CRF"""
+
+    pass
+
+
+class MicrobiologyPrnFormValidator(
+    MicrobiologyFormValidatorMixin,
+    ConsentFormValidatorMixin,
+    BaseFormValidatorMixin,
+    FormValidator,
+):
+    """Assumes this is a PRN"""
+
+    pass
