@@ -15,15 +15,23 @@ from .model_mixins import (
 )
 
 
-class Microbiology(
-    UniqueSubjectIdentifierFieldMixin,
-    UrinaryLamModelMixin,
-    SputumGenexpertModelMixin,
-    SputumCultureModelMixin,
-    SputumAfbModelMixin,
-    UrineCultureModelMixin,
+class MicrobiologyModelMixin(
     BloodCultureModelMixin,
     HistopathologyModelMixin,
+    SputumAfbModelMixin,
+    SputumCultureModelMixin,
+    SputumGenexpertModelMixin,
+    UrinaryLamModelMixin,
+    UrineCultureModelMixin,
+    models.Model,
+):
+    class Meta:
+        abstract = True
+
+
+class Microbiology(
+    UniqueSubjectIdentifierFieldMixin,
+    MicrobiologyModelMixin,
     SiteModelMixin,
     BaseUuidModel,
 ):
