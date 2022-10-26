@@ -1,4 +1,4 @@
-from edc_consent.form_validators import ConsentFormValidatorMixin
+from edc_consent.form_validators import SubjectConsentFormValidatorMixin
 from edc_constants.constants import OTHER, POS, YES
 from edc_crf.crf_form_validator import CrfFormValidator
 from edc_crf.crf_form_validator_mixins import BaseFormValidatorMixin
@@ -240,7 +240,7 @@ class MicrobiologyFormValidator(MicrobiologyFormValidatorMixin, CrfFormValidator
 
 class MicrobiologyPrnFormValidator(
     MicrobiologyFormValidatorMixin,
-    ConsentFormValidatorMixin,
+    SubjectConsentFormValidatorMixin,
     BaseFormValidatorMixin,
     FormValidator,
 ):
