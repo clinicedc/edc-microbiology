@@ -6,7 +6,6 @@ from edc_protocol.validators import date_not_before_study_start
 
 
 class SputumAfbModelMixin(models.Model):
-
     sputum_afb_performed = models.CharField(
         verbose_name="Sputum AFB microscopy performed?",
         max_length=5,

@@ -5,7 +5,6 @@ from ..fieldsets import get_urine_culture_fieldset
 
 
 class UrineCultureModelAdminMixin:
-
     fieldsets = (
         get_urine_culture_fieldset(),
         audit_fieldset_tuple,

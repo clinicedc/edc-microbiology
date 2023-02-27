@@ -8,7 +8,6 @@ from ..choices import LAM_POS_RESULT
 
 
 class UrinaryLamModelMixin(models.Model):
-
     urinary_lam_performed = models.CharField(
         verbose_name="Urinary LAM performed?",
         max_length=15,
