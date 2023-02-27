@@ -10,7 +10,6 @@ from ..choices import BACTERIA_TYPE, BLOOD_CULTURE_RESULTS_ORGANISM, CULTURE_RES
 
 
 class BloodCultureModelMixin(models.Model):
-
     blood_culture_performed = models.CharField(max_length=5, choices=YES_NO)
 
     blood_culture_date = models.DateField(

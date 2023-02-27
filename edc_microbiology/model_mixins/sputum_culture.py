@@ -8,7 +8,6 @@ from ..choices import SPUTUM_CULTURE
 
 
 class SputumCultureModelMixin(models.Model):
-
     sputum_culture_performed = models.CharField(
         verbose_name="Sputum culture performed?",
         max_length=15,

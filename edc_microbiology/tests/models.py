@@ -20,7 +20,6 @@ class Appointment(AppointmentModelMixin, SiteModelMixin, BaseUuidModel):
 
 
 class SubjectVisit(VisitModelMixin, BaseUuidModel):
-
     appointment = models.OneToOneField(
         Appointment, on_delete=models.PROTECT, related_name="subjectvisittest"
     )

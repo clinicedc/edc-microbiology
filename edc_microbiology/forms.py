@@ -7,7 +7,6 @@ from .models import Microbiology
 
 
 class MicrobiologyForm(SiteModelFormMixin, FormValidatorMixin, forms.ModelForm):
-
     form_validator_cls = MicrobiologyFormValidator
 
     class Meta:

@@ -9,7 +9,6 @@ from ..choices import CULTURE_RESULTS, URINE_CULTURE_RESULTS_ORGANISM
 
 
 class UrineCultureModelMixin(models.Model):
-
     urine_culture_performed = models.CharField(
         max_length=5,
         choices=YES_NO,
