@@ -8,7 +8,6 @@ from ..choices import SPUTUM_GENEXPERT
 
 
 class SputumGenexpertModelMixin(models.Model):
-
     sputum_genexpert_performed = models.CharField(
         verbose_name="Sputum Gene-Xpert performed?",
         max_length=15,

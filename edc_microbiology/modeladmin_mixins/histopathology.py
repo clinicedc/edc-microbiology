@@ -5,7 +5,6 @@ from ..fieldsets import get_histopathology_fieldset
 
 
 class HistopathologyModelAdminMixin:
-
     fieldsets = (
         get_histopathology_fieldset(),
         audit_fieldset_tuple,

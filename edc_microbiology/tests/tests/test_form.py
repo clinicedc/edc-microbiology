@@ -2,7 +2,7 @@ from decimal import Decimal
 
 from django import forms
 from django.core.exceptions import ValidationError
-from django.test import TestCase, tag
+from django.test import TestCase
 from edc_constants.constants import NO, NOT_APPLICABLE, OTHER, POS, YES
 from edc_crf.crf_form_validator_mixins import BaseFormValidatorMixin
 from edc_form_validators import FormValidator
@@ -220,7 +220,6 @@ class TestMicrobiologyFormValidator(TestCase):
         self.assertRaises(ValidationError, form_validator.validate)
         self.assertIn("blood_culture_bacteria", form_validator._errors)
 
-    @tag("1'")
     def test_blood_organism_is_bacteria_na_bacteria_identified(self):
         cleaned_data = {
             "subject_visit": self.subject_visit,

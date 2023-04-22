@@ -10,7 +10,6 @@ from ..choices import BIOPSY_RESULTS_ORGANISM, CULTURE_RESULTS
 
 
 class HistopathologyModelMixin(models.Model):
-
     tissue_biopsy_performed = models.CharField(
         verbose_name="Was a tissue biopsy taken", max_length=5, choices=YES_NO
     )

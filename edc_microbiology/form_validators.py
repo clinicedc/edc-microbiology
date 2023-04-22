@@ -49,7 +49,6 @@ class BloodCultureFormValidatorMixin:
 
 class BloodCultureSimpleFormValidatorMixin:
     def validate_blood_culture(self: CrfFormValidator):
-
         self.required_if(
             YES, field="blood_culture_performed", field_required="blood_culture_date"
         )

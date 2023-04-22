@@ -11,7 +11,6 @@ from ..fieldsets import (
 
 
 class MicrobiologyModelAdminMixin:
-
     fieldsets = (
         get_urinary_lam_fieldset(),
         get_sputum_genexpert_fieldset(),

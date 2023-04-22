@@ -5,7 +5,6 @@ from ..fieldsets import get_blood_culture_fieldset
 
 
 class BloodCultureModelAdminMixin:
-
     fieldsets = (
         get_blood_culture_fieldset(),
         audit_fieldset_tuple,
