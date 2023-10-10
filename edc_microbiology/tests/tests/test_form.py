@@ -1,14 +1,16 @@
-from decimal import Decimal
-
 from django import forms
 from django.core.exceptions import ValidationError
 from django.test import TestCase
+from edc_appointment.models import Appointment
+from edc_appointment.tests.helper import Helper
 from edc_constants.constants import NO, NOT_APPLICABLE, OTHER, POS, YES
 from edc_crf.crf_form_validator_mixins import BaseFormValidatorMixin
 from edc_form_validators import FormValidator
-from edc_registration.models import RegisteredSubject
+from edc_reference import site_reference_configs
 from edc_utils import get_utcnow
-from edc_visit_schedule.constants import DAY1
+from edc_visit_schedule.site_visit_schedules import site_visit_schedules
+from edc_visit_tracking.constants import SCHEDULED
+from edc_visit_tracking.models import SubjectVisit
 
 from edc_microbiology.constants import (
     BACTERIA,
@@ -17,8 +19,7 @@ from edc_microbiology.constants import (
     NO_GROWTH,
 )
 from edc_microbiology.form_validators import MicrobiologyFormValidatorMixin
-
-from ..models import Appointment, SubjectVisit
+from microbiology_app.visit_schedule import visit_schedule
 
 
 class MicrobiologyFormValidator(
@@ -32,22 +33,31 @@ class MicrobiologyFormValidator(
 
 
 class TestMicrobiologyFormValidator(TestCase):
+    helper_cls = Helper
+
     def setUp(self):
-        self.subject_identifier = "1234"
-        RegisteredSubject.objects.create(
-            subject_identifier=self.subject_identifier,
-            randomization_datetime=get_utcnow(),
+        self.subject_identifier = "1235"
+        self.helper = self.helper_cls(subject_identifier=self.subject_identifier)
+        self.visit_schedule_name = "visit_schedule"
+        self.schedule_name = "schedule"
+
+        site_visit_schedules._registry = {}
+        site_visit_schedules.loaded = False
+        site_visit_schedules.register(visit_schedule)
+
+        site_reference_configs.registry = {}
+        site_reference_configs.register_from_visit_schedule(
+            visit_models={"edc_appointment.appointment": "edc_visit_tracking.subjectvisit"}
         )
-        appointment = Appointment.objects.create(
-            subject_identifier=self.subject_identifier,
-            appt_datetime=get_utcnow(),
-            visit_code=DAY1,
-            visit_schedule_name="visit_schedule",
-            schedule_name="schedule",
-            timepoint=Decimal("0.0"),
+
+        self.helper.consent_and_put_on_schedule(
+            visit_schedule_name="visit_schedule", schedule_name="schedule"
         )
+        appointment = Appointment.objects.all().order_by("timepoint_datetime")[0]
         self.subject_visit = SubjectVisit.objects.create(
-            appointment=appointment, subject_identifier=self.subject_identifier
+            appointment=appointment,
+            subject_identifier=self.subject_identifier,
+            reason=SCHEDULED,
         )
 
     def test_urine_culture_performed_yes_require_urine_culture_result(self):
