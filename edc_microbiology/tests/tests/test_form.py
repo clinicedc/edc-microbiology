@@ -6,7 +6,6 @@ from edc_appointment.tests.helper import Helper
 from edc_constants.constants import NO, NOT_APPLICABLE, OTHER, POS, YES
 from edc_crf.crf_form_validator_mixins import BaseFormValidatorMixin
 from edc_form_validators import FormValidator
-from edc_reference import site_reference_configs
 from edc_utils import get_utcnow
 from edc_visit_schedule.site_visit_schedules import site_visit_schedules
 from edc_visit_tracking.constants import SCHEDULED
@@ -44,11 +43,6 @@ class TestMicrobiologyFormValidator(TestCase):
         site_visit_schedules._registry = {}
         site_visit_schedules.loaded = False
         site_visit_schedules.register(visit_schedule)
-
-        site_reference_configs.registry = {}
-        site_reference_configs.register_from_visit_schedule(
-            visit_models={"edc_appointment.appointment": "edc_visit_tracking.subjectvisit"}
-        )
 
         self.helper.consent_and_put_on_schedule(
             visit_schedule_name="visit_schedule", schedule_name="schedule"
