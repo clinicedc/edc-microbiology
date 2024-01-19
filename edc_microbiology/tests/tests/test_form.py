@@ -3,8 +3,7 @@ from django.core.exceptions import ValidationError
 from django.test import TestCase
 from edc_appointment.models import Appointment
 from edc_appointment.tests.helper import Helper
-from edc_consent.site_consents import AlreadyRegistered
-from edc_consent.tests.consent_test_utils import consent_definition_factory
+from edc_consent import site_consents
 from edc_constants.constants import NO, NOT_APPLICABLE, OTHER, POS, YES
 from edc_crf.crf_form_validator_mixins import BaseFormValidatorMixin
 from edc_form_validators import FormValidator
@@ -20,6 +19,7 @@ from edc_microbiology.constants import (
     NO_GROWTH,
 )
 from edc_microbiology.form_validators import MicrobiologyFormValidatorMixin
+from microbiology_app.consents import consent_v1
 from microbiology_app.visit_schedule import visit_schedule
 
 
@@ -42,15 +42,11 @@ class TestMicrobiologyFormValidator(TestCase):
         self.visit_schedule_name = "visit_schedule"
         self.schedule_name = "schedule"
 
+        site_consents.registry = {}
+        site_consents.register(consent_v1)
         site_visit_schedules._registry = {}
         site_visit_schedules.loaded = False
         site_visit_schedules.register(visit_schedule)
-        for schedule in visit_schedule.schedules.values():
-            try:
-                consent_definition_factory(model=schedule.consent_model)
-            except AlreadyRegistered:
-                pass
-
         self.helper.consent_and_put_on_schedule(
             visit_schedule_name="visit_schedule", schedule_name="schedule"
         )
