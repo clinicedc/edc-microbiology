@@ -16,4 +16,3 @@ Microbiology model mixins in clinicedc/edc projects
 
 .. |downloads| image:: https://pepy.tech/badge/edc-microbiology
    :target: https://pepy.tech/project/edc-microbiology
-
