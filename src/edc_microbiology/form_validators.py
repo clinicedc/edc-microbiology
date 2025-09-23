@@ -82,7 +82,9 @@ class CsfGenexpertFormValidator:
 
 
 class HistopathologyFormValidatorMixin:
-    def validate_histopathology(self: CrfFormValidator, exclude_fields: list[str] = None):
+    def validate_histopathology(
+        self: CrfFormValidator, exclude_fields: list[str] | None = None
+    ):
         exclude_fields = exclude_fields or []
 
         self.required_if(

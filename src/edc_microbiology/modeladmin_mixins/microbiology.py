@@ -20,7 +20,7 @@ class MicrobiologyModelAdminMixin:
         audit_fieldset_tuple,
     )
 
-    radio_fields = {
+    radio_fields = {  # noqa: RUF012
         "sputum_afb_performed": admin.VERTICAL,
         "sputum_afb_result": admin.VERTICAL,
         "sputum_culture_performed": admin.VERTICAL,

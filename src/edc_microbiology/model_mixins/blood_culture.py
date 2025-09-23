@@ -31,7 +31,7 @@ class BloodCultureModelMixin(models.Model):
     )
 
     blood_culture_organism_text = models.TextField(
-        verbose_name="If growth positive, organism", null=True, blank=True
+        verbose_name="If growth positive, organism", default="", blank=True
     )
 
     blood_culture_organism = models.CharField(
