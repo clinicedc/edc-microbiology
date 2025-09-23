@@ -10,7 +10,7 @@ class HistopathologyModelAdminMixin:
         audit_fieldset_tuple,
     )
 
-    radio_fields = {
+    radio_fields = {  # noqa: RUF012
         "tissue_biopsy_performed": admin.VERTICAL,
         "tissue_biopsy_result": admin.VERTICAL,
         "tissue_biopsy_organism": admin.VERTICAL,

@@ -10,7 +10,7 @@ class UrineCultureModelAdminMixin:
         audit_fieldset_tuple,
     )
 
-    radio_fields = {
+    radio_fields = {  # noqa: RUF012
         "urine_culture_performed": admin.VERTICAL,
         "urine_culture_result": admin.VERTICAL,
         "urine_culture_organism": admin.VERTICAL,

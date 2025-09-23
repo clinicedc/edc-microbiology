@@ -10,7 +10,7 @@ class BloodCultureModelAdminMixin:
         audit_fieldset_tuple,
     )
 
-    radio_fields = {
+    radio_fields = {  # noqa: RUF012
         "blood_culture_performed": admin.VERTICAL,
         "blood_culture_result": admin.VERTICAL,
         "blood_culture_organism": admin.VERTICAL,

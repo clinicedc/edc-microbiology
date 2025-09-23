@@ -42,11 +42,11 @@ class HistopathologyModelMixin(models.Model):
     tissue_biopsy_organism_other = OtherCharField(max_length=50, null=True, blank=True)
 
     tissue_biopsy_organism_text = models.TextField(
-        verbose_name="If growth positive, organism", null=True, blank=True
+        verbose_name="If growth positive, organism", default="", blank=True
     )
 
     tissue_biopsy_report = models.TextField(
-        verbose_name="Histopathoplogy report", null=True, blank=True
+        verbose_name="Histopathoplogy report", default="", blank=True
     )
 
     class Meta:

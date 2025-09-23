@@ -1,16 +1,15 @@
+from clinicedc_tests.consents import consent_v1
+from clinicedc_tests.helper import Helper
+from clinicedc_tests.visit_schedules.visit_schedule import get_visit_schedule
 from django import forms
 from django.core.exceptions import ValidationError
-from django.test import TestCase
-from edc_appointment.models import Appointment
-from edc_appointment.tests.helper import Helper
+from django.test import TestCase, override_settings
+from django.utils import timezone
 from edc_consent import site_consents
 from edc_constants.constants import NO, NOT_APPLICABLE, OTHER, POS, YES
 from edc_crf.crf_form_validator_mixins import BaseFormValidatorMixin
 from edc_form_validators import FormValidator
-from edc_utils import get_utcnow
 from edc_visit_schedule.site_visit_schedules import site_visit_schedules
-from edc_visit_tracking.constants import SCHEDULED
-from edc_visit_tracking.models import SubjectVisit
 
 from edc_microbiology.constants import (
     BACTERIA,
@@ -19,8 +18,6 @@ from edc_microbiology.constants import (
     NO_GROWTH,
 )
 from edc_microbiology.form_validators import MicrobiologyFormValidatorMixin
-from microbiology_app.consents import consent_v1
-from microbiology_app.visit_schedule import visit_schedule
 
 
 class MicrobiologyFormValidator(
@@ -33,35 +30,29 @@ class MicrobiologyFormValidator(
     pass
 
 
+@override_settings(SITE_ID=10)
 class TestMicrobiologyFormValidator(TestCase):
-    helper_cls = Helper
-
     def setUp(self):
-        self.subject_identifier = "1235"
-        self.helper = self.helper_cls(subject_identifier=self.subject_identifier)
+        helper = Helper()
         self.visit_schedule_name = "visit_schedule"
         self.schedule_name = "schedule"
 
         site_consents.registry = {}
         site_consents.register(consent_v1)
+
+        visit_schedule = get_visit_schedule(consent_v1)
         site_visit_schedules._registry = {}
         site_visit_schedules.loaded = False
         site_visit_schedules.register(visit_schedule)
-        self.helper.consent_and_put_on_schedule(
-            visit_schedule_name="visit_schedule", schedule_name="schedule"
-        )
-        appointment = Appointment.objects.all().order_by("timepoint_datetime")[0]
-        self.subject_visit = SubjectVisit.objects.create(
-            appointment=appointment,
-            subject_identifier=self.subject_identifier,
-            reason=SCHEDULED,
+        self.subject_visit = helper.enroll_to_baseline(
+            visit_schedule_name=visit_schedule.name, schedule_name="schedule"
         )
 
     def test_urine_culture_performed_yes_require_urine_culture_result(self):
         cleaned_data = {
             "subject_visit": self.subject_visit,
             "urine_culture_performed": YES,
-            "urine_culture_date": get_utcnow(),
+            "urine_culture_date": timezone.now(),
             "urine_culture_result": NOT_APPLICABLE,
         }
         form_validator = MicrobiologyFormValidator(cleaned_data=cleaned_data)
@@ -131,7 +122,7 @@ class TestMicrobiologyFormValidator(TestCase):
         cleaned_data = {
             "subject_visit": self.subject_visit,
             "blood_culture_performed": YES,
-            "blood_culture_date": get_utcnow(),
+            "blood_culture_date": timezone.now(),
             "blood_culture_result": NOT_APPLICABLE,
         }
         form_validator = MicrobiologyFormValidator(cleaned_data=cleaned_data)
@@ -170,7 +161,7 @@ class TestMicrobiologyFormValidator(TestCase):
         cleaned_data = {
             "subject_visit": self.subject_visit,
             "blood_culture_result": POS,
-            "blood_culture_date": get_utcnow().date(),
+            "blood_culture_date": timezone.now().date(),
             "blood_culture_day": 1,
             "blood_culture_organism": NOT_APPLICABLE,
         }
@@ -307,7 +298,7 @@ class TestMicrobiologyFormValidator(TestCase):
         cleaned_data = {
             "subject_visit": self.subject_visit,
             "tissue_biopsy_performed": NO,
-            "tissue_biopsy_date": get_utcnow().date(),
+            "tissue_biopsy_date": timezone.now().date(),
         }
         form_validator = MicrobiologyFormValidator(cleaned_data=cleaned_data)
         self.assertRaises(ValidationError, form_validator.validate)
@@ -326,7 +317,7 @@ class TestMicrobiologyFormValidator(TestCase):
         cleaned_data = {
             "subject_visit": self.subject_visit,
             "tissue_biopsy_performed": YES,
-            "tissue_biopsy_date": get_utcnow(),
+            "tissue_biopsy_date": timezone.now(),
             "tissue_biopsy_result": POS,
             "tissue_biopsy_day": None,
         }
@@ -338,7 +329,7 @@ class TestMicrobiologyFormValidator(TestCase):
         cleaned_data = {
             "subject_visit": self.subject_visit,
             "tissue_biopsy_performed": YES,
-            "tissue_biopsy_date": get_utcnow(),
+            "tissue_biopsy_date": timezone.now(),
             "tissue_biopsy_result": POS,
             "tissue_biopsy_organism": None,
         }

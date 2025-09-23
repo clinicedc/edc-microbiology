@@ -5,6 +5,7 @@ from edc_auth.auth_updater import AuthUpdater
 from edc_auth.site_auths import site_auths
 
 
+@override_settings(SITE_ID=10)
 class TestAuths(TestCase):
     @override_settings(
         EDC_AUTH_SKIP_SITE_AUTHS=True,
