@@ -1,5 +1,5 @@
+from clinicedc_constants import OTHER, POS, YES
 from edc_consent.form_validators import SubjectConsentFormValidatorMixin
-from edc_constants.constants import OTHER, POS, YES
 from edc_crf.crf_form_validator import CrfFormValidator
 from edc_crf.crf_form_validator_mixins import BaseFormValidatorMixin
 from edc_form_validators import FormValidator

@@ -1,4 +1,4 @@
-from edc_constants.constants import IND, NEG, NOT_APPLICABLE, OTHER, POS, UNKNOWN
+from clinicedc_constants import IND, NEG, NOT_APPLICABLE, OTHER, POS, UNKNOWN
 
 from .constants import (
     BACTERIA,

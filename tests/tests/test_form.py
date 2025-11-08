@@ -1,3 +1,4 @@
+from clinicedc_constants import NO, NOT_APPLICABLE, OTHER, POS, YES
 from clinicedc_tests.consents import consent_v1
 from clinicedc_tests.helper import Helper
 from clinicedc_tests.visit_schedules.visit_schedule import get_visit_schedule
@@ -6,7 +7,6 @@ from django.core.exceptions import ValidationError
 from django.test import TestCase, override_settings
 from django.utils import timezone
 from edc_consent import site_consents
-from edc_constants.constants import NO, NOT_APPLICABLE, OTHER, POS, YES
 from edc_crf.crf_form_validator_mixins import BaseFormValidatorMixin
 from edc_form_validators import FormValidator
 from edc_visit_schedule.site_visit_schedules import site_visit_schedules
